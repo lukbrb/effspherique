@@ -17,4 +17,6 @@ Y sont traités :
   - Fichier : Viriel.py
 - Une animation permettant de mieux visualiser le projet
   - Fichiers : animation.mp4 et Graph_3D.py
- 
+
+
+#### A noter : Ceci était un premier projet et une découverte de Python, il est évidemment possible qu'il contienne certaines imperfections ####
