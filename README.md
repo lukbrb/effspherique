@@ -19,4 +19,6 @@ Y sont traités :
   - Fichiers : animation.mp4 et Graph_3D.py
 
 
-#### A noter : Ceci était un premier projet et une découverte de Python, il est évidemment possible qu'il contienne certaines imperfections ####
+#### A noter : Ceci était un premier projet et une découverte de Python, il est possible voire qu'il contienne certaines imperfections ####
+
+### Mise à jour ### : **un notebook Jupyter a été crée, améliorant et éclaircissant les scripts déjà présents, et ajoutant des explications sur la démarche physique du projet
