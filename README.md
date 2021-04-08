@@ -21,4 +21,4 @@ Y sont traités :
 
 #### A noter : Ceci était un premier projet et une découverte de Python, il est possible voire qu'il contienne certaines imperfections ####
 
-### Mise à jour : **un notebook Jupyter a été crée, améliorant et éclaircissant les scripts déjà présents, et ajoutant des explications sur la démarche physique du projet
+### Mise à jour : un [notebook Jupyter](https://github.com/lukbrb/Projet_Physique/blob/master/Projet1-bis/ProjetNumerique.ipynb) a été crée, améliorant et éclaircissant les scripts déjà présents, et ajoutant des explications sur la démarche physique du projet
