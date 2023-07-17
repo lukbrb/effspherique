@@ -48,12 +48,17 @@ def vitesse(R_final):
     return v, v_test
 
 
-def Vitesse_alter(R):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
-    V = np.zeros(len(R))
-    for i in range(0, len(R) - 1):
-        dR = R[i + 1] - R[i]
-        V[i] = dR / dt
-    return V
+# def Vitesse_alter(R):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
+#     V = np.zeros(len(R))
+#     for i in range(0, len(R) - 1):
+#         dR = R[i + 1] - R[i]
+#         V[i] = dR / dt
+#     return V
+#
+def Vitesse_alter(r):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
+    dr = np.diff(r)
+    v = dr / dt
+    return np.pad(v, (0, 1), mode='constant')  # numpy pad pour avoir len(v) == len(r)
 
 
 # Formule pour l'énergie cinétique
