@@ -62,13 +62,16 @@ def Vitesse_alter(r):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
 
 
 # Formule pour l'énergie cinétique
-def Ecin(Rcourt, vitesse):
-    R = Rcourt
-    Ecin = np.zeros(len(R))
-    for i in range(0, len(R)):
-        v = vitesse[i]
-        Ecin[i] = (3 * Masse * v ** 2) / 10
-    return Ecin
+# def Ecin(Rcourt, vitesse):
+#     R = Rcourt
+#     Ecin = np.zeros(len(R))
+#     for i in range(0, len(R)):
+#         v = vitesse[i]
+#         Ecin[i] = (3 * Masse * v ** 2) / 10
+#     return Ecin
+
+def Ecin(v):
+    return (3 * Masse * v ** 2) / 10
 
 
 # Calcul du rayon viriel en prenant la moitié de son rayon max (méthode 1)
@@ -98,8 +101,8 @@ Vitesse2 = Vitesse_alter(R_final)
 
 # Calcul des énergies - On regarde où est-ce qu'elles se croisent pour déterminer le rayon viriel (méthode 2)
 Epp = -(3 * G * Masse ** 2) / (5 * R_final)
-Ec = Ecin(R_final, v)
-Ectest = Ecin(R_final, Vitesse2)
+Ec = Ecin(v)
+Ectest = Ecin(Vitesse2)
 Epvir = (3 * G * Masse ** 2) / (5 * Rvir)
 
 print("Surdensité viriel finale :", 1 + delta_vir * (a(teff) / a(tvir1)) ** 3)
