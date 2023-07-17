@@ -7,7 +7,7 @@ from Sol_lin import *
 from Sol_nonlin import *
 
 
-os.chdir("Résultats")
+os.chdir("resultats")
 # tests sur l'équation linéaire
 plt.figure()
 plt.title("Tests sur l'équation linéaire")

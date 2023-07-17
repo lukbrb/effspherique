@@ -3,7 +3,7 @@ import numpy as np
 import os
 import time
 
-os.chdir("Résultats")
+os.chdir("resultats")
 
 
 def fonction(delta_et_p, t):
