@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.animation as animation
 import numpy as np
 import os
-from main import ttab, ttab1
+from cosmofunc import ttab, ttab1
 from Viriel import R_final, tvir1
 
 os.chdir("C:/Users/Lucas/PycharmProjects/Projet_Num")

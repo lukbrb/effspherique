@@ -1,12 +1,11 @@
 from Sol_nonlin import rk4
-from main import H0
-
-
+from cosmofunc import H0
 
 """On cherche ici la surdensité minimale telle que le temps d'effondrement soit égal à celui de l'âge de l'univers, 
 dans un univers de Einstein - De Sitter"""
 
-t_eff = 2 / (3 * H0) # L'âge de l'univers
+t_eff = 2 / (3 * H0)  # L'âge de l'univers
+
 
 def cond_init(d_i_min, d_i_max, tolerance, delta_eff, t_eff):
     # Chercher le temps d'effondrement pour d_i_min:

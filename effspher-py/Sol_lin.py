@@ -1,9 +1,5 @@
 import numpy as np
-from main import *
-
-
-def fonction(delta_et_p, ttab):
-    return -2 * H(ttab) * delta_et_p[1] + 1.5 * (H(ttab) ** 2) * delta_et_p[0]
+from cosmofunc import H, ti, ttab, dt, milliard_annee, eq_diff_lin
 
 
 def Euler_lin(delta_i, delta_eff):
@@ -30,7 +26,7 @@ def rk2_lin(delta_i, delta_eff):
         t = ttab[n]
         if (delta_p[n - 1, 0] and delta_p[n - 1, 1]) < delta_eff:
             k1 = -2 * H(t) * delta_p[n - 1, 1] + 1.5 * (H(t) ** 2) * delta_p[n - 1, 0]
-            k2 = fonction([delta_p[n - 1, 0], delta_p[n - 1, 1] + dt * k1], t + dt)
+            k2 = eq_diff_lin([delta_p[n - 1, 0], delta_p[n - 1, 1] + dt * k1], t + dt)
             delta_p[n, 1] = delta_p[n - 1, 1] + 0.5 * dt * (k1 + k2)
             delta_p[n, 0] = delta_p[n - 1, 0] + delta_p[n - 1, 1] * dt
         else:
@@ -47,9 +43,9 @@ def rk4_lin(delta_i, delta_eff):
         t = ttab[n]
         if (delta_p[n - 1, 0] and delta_p[n - 1, 1]) < delta_eff:
             k1 = -2 * H(t) * delta_p[n - 1, 1] + 1.5 * (H(t) ** 2) * delta_p[n - 1, 0]
-            k2 = fonction([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k1) / 2], t + dt / 2)
-            k3 = fonction([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k2) / 2], t + dt / 2)
-            k4 = fonction([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k3) / 2], t + dt)
+            k2 = eq_diff_lin([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k1) / 2], t + dt / 2)
+            k3 = eq_diff_lin([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k2) / 2], t + dt / 2)
+            k4 = eq_diff_lin([delta_p[n - 1, 0], delta_p[n - 1, 1] + (dt * k3) / 2], t + dt)
             delta_p[n, 1] = delta_p[n - 1, 1] + (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
             delta_p[n, 0] = delta_p[n - 1, 0] + delta_p[n - 1, 1] * dt
         else:

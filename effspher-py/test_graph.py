@@ -2,10 +2,9 @@ import matplotlib.pyplot as plt
 import scipy.integrate as itg
 import numpy as np
 import os
-from main import *
-from Sol_lin import *
-from Sol_nonlin import *
-
+from cosmofunc import ttab1, H, ti, ttab, milliard_annee, tf
+from Sol_lin import Euler_lin, rk4_lin, rk2_lin, equation
+from Sol_nonlin import rk4, surd_mini
 
 os.chdir("resultats")
 # tests sur l'équation linéaire
