@@ -11,13 +11,13 @@ dv = x[:, 1]
 
 # Fonction pour déterminer t lorsque Rviriel est atteint
 
-def t_viriel(borne_min, borne_max, tolerance, R, Rvir):
-    for i in R[borne_min:borne_max]:
-        inter = abs(i - Rvir)
+def t_viriel(borne_min, borne_max, tolerance, r, r_vir):
+    for i in r[borne_min:borne_max]:
+        inter = abs(i - r_vir)
         t = ttab[borne_min]
         while inter > tolerance:
             milieu = (borne_min + borne_max) / 2
-            if i > Rvir:
+            if i > r_vir:
                 borne_min = milieu
             else:
                 borne_max = milieu
@@ -28,24 +28,26 @@ def t_viriel(borne_min, borne_max, tolerance, R, Rvir):
 
 # Fonction qui fait évoluer la surdensité après la surdensité viriel
 
-def surdensité(indice):
-    for i in range(0, indice):
+# TODO: Vectoriser cette fonction
+def surdensite(index):
+    for i in range(0, index):
         delta[i] = delta[i]
-    for i in range(indice, len(delta)):
+    for i in range(index, len(delta)):
         delta[i] = rho_vir / rho_m(ttab[i]) - 1
     return delta
 
 
 # Vitesse calculée analytiquement
-def vitesse(R_final):
-    R = R_final
-    v = np.zeros(len(R))
-    v_test = np.zeros(len(R))
-    for i in range(0, len(R)):
+# TODO: Probablement vectorisable
+def vitesse(r_final):
+    r = r_final
+    _v = np.zeros(len(r))
+    v_test = np.zeros(len(r))
+    for i in range(0, len(r)):
         t = ttab[i]
-        v[i] = H(t) * R[i] * (1 - (dv[i] * R[i] ** 3) / (9 * Masse * G * t))
-        v_test[i] = H(t) * R[i] - (R[i] * dv[i]) / (3 * (1 + delta[i]))
-    return v, v_test
+        _v[i] = H(t) * r[i] * (1 - (dv[i] * r[i] ** 3) / (9 * Masse * G * t))
+        v_test[i] = H(t) * r[i] - (r[i] * dv[i]) / (3 * (1 + delta[i]))
+    return _v, v_test
 
 
 # def Vitesse_alter(R):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
@@ -57,8 +59,8 @@ def vitesse(R_final):
 #
 def Vitesse_alter(r):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
     dr = np.diff(r)
-    v = dr / dt
-    return np.pad(v, (0, 1), mode='constant')  # numpy pad pour avoir len(v) == len(r)
+    _v = dr / dt
+    return np.pad(_v, (0, 1), mode='constant')  # numpy pad pour avoir len(v) == len(r)
 
 
 # Formule pour l'énergie cinétique
@@ -70,8 +72,8 @@ def Vitesse_alter(r):  # VITESSE CALCULEE DIRECTEMENT A PARTIR DE R ET dt
 #         Ecin[i] = (3 * Masse * v ** 2) / 10
 #     return Ecin
 
-def Ecin(v):
-    return (3 * Masse * v ** 2) / 10
+def Ecin(_v):
+    return (3 * Masse * _v ** 2) / 10
 
 
 # Calcul du rayon viriel en prenant la moitié de son rayon max (méthode 1)
@@ -92,7 +94,7 @@ print("Indice de la virialisation :", indice)
 print("Temps viriel calculé avec la fonction", tvir1)
 
 # Rayon et surdensité finaux
-delta_final = surdensité(indice)
+delta_final = surdensite(indice)
 R_final = ((3 * Masse) / (4 * np.pi * rho_m(ttab) * (1 + delta_final))) ** (1 / 3)
 
 # Calcul des vitesses via méthodes numériques et formule analytique
