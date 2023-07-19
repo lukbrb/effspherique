@@ -1,9 +1,9 @@
 import numpy as np
 from cosmofunc import rho_m, G, a, ttab1, ttab, H, dt, milliard_annee
-from Sol_nonlin import rk4, surd_mini
+import nonlinear
 import matplotlib.pyplot as plt
 
-x, teff = rk4(4 * surd_mini, 3 * 1e4)
+x, teff = nonlinear.rk4(4 * nonlinear.surd_mini, 3 * 1e4)
 Masse = 1e16  # N'influe pas sur le résultat final de la surdensité
 delta = x[:, 0]
 dv = x[:, 1]
