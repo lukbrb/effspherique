@@ -70,12 +70,13 @@ plt.xscale('log')
 plt.legend()
 
 plt.show()
+
 # Temps d'effondrement en fonction du pas de temps
-temps_fctN = np.genfromtxt("resultats/temps_fctN.txt")
-N = np.genfromtxt("resultats/pas_temps.txt")
-pas_temps = np.zeros(len(N))
-for i in range(0, len(N)):
-    pas_temps[i] = float((tf - ti) / N[i])
+# temps_fctN = np.genfromtxt("resultats/temps_fctN.txt")
+# N = np.genfromtxt("resultats/pas_temps.txt")
+# pas_temps = np.zeros(len(N))
+# for i in range(0, len(N)):
+#     pas_temps[i] = float((tf - ti) / N[i])
 
 # plt.figure()
 # plt.title("Influence du pas de temps sur le temps d'effondrement")
