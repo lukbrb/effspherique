@@ -6,8 +6,6 @@ import linear
 import nonlinear
 from cosmofunc import ttab1, H, ti, ttab, milliard_annee, tf
 
-import os
-print(os.getcwd())
 # tests sur l'équation linéaire
 euler = linear.euler(1e-3, 1e4)
 w = linear.rk4(1e-3, 1e4)
