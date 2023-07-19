@@ -1,21 +1,22 @@
 import matplotlib.pyplot as plt
-import scipy.integrate as itg
 import numpy as np
-import os
-from cosmofunc import ttab1, H, ti, ttab, milliard_annee, tf
-from Sol_lin import Euler_lin, rk4_lin, rk2_lin, equation
-from Sol_nonlin import rk4, surd_mini
+import scipy.integrate as itg
 
-os.chdir("resultats")
+import linear
+import nonlinear
+from cosmofunc import ttab1, H, ti, ttab, milliard_annee, tf
+
+import os
+print(os.getcwd())
 # tests sur l'équation linéaire
+euler = linear.euler(1e-3, 1e4)
+w = linear.rk4(1e-3, 1e4)
+z = linear.rk2(1e-3, 1e4)
+c_i = [1e-3, H(ti) * 1e-3]
+y = itg.odeint(linear.equation, c_i, ttab)
+
 plt.figure()
 plt.title("Tests sur l'équation linéaire")
-euler = Euler_lin(1e-3, 1e4)
-
-w = rk4_lin(1e-3, 1e4)
-z = rk2_lin(1e-3, 1e4)
-c_i = [1e-3, H(ti) * 1e-3]
-y = itg.odeint(equation, c_i, ttab)
 plt.plot(ttab, euler[:, 0], label='Euler')
 plt.plot(ttab, y[:, 0], label='Scipy')
 plt.plot(ttab, z[:, 0], label='Runge-Kutta 2')
@@ -26,10 +27,11 @@ plt.ylabel('Valeur de la surdensité')
 plt.legend()
 
 # Temps d'effondrement en fonction de la surdensité initiale
-t_eff = np.genfromtxt("temps_eff.txt")
+t_eff = np.genfromtxt("resultats/temps_eff.txt")
 for i in range(0, len(t_eff)):
     t_eff[i] = float(t_eff[i]) / milliard_annee
-surdens_init = np.genfromtxt("surdensité_initiale.txt")
+surdens_init = np.genfromtxt("resultats/surdensité_initiale.txt")
+
 plt.figure()
 plt.plot(surdens_init, t_eff, '+')
 plt.ylabel("Temps d'effondrement (en milliards d'années)")
@@ -37,10 +39,11 @@ plt.xlabel("Surdensité initiale")
 plt.yscale('log')
 plt.title("Temps d'effondrement en fonction de la surdensité initiale")
 
+x, teff = nonlinear.rk4(4 * nonlinear.surd_mini, 3 * 1e4)
+
 plt.figure()
 plt.title("Temps d'effondrement calculé avec RK4")
-x, teff = rk4(4 * surd_mini, 3 * 1e4)
-plt.plot(ttab1, x[:, 0], label="Surdensité initiale =" + str(round(4 * surd_mini, 2)))
+plt.plot(ttab1, x[:, 0], label=f"Surdensité initiale = {4 * nonlinear.surd_mini: .2f}")
 plt.xlabel("Temps (en milliards d'années")
 plt.ylabel("Valeur de la surdensité")
 plt.xscale('log')
@@ -49,12 +52,13 @@ plt.legend()
 
 # Temps d'effondrement en fonction de la surdensité d'effondrement
 
-t_deltaeff = np.genfromtxt("temps_deltaeff.txt")
+t_deltaeff = np.genfromtxt("resultats/temps_deltaeff.txt")
 for i in range(0, len(t_deltaeff)):
     t_deltaeff[i] = float(t_deltaeff[i]) / milliard_annee
-surdens_eff = np.genfromtxt("Delta_eff.txt")
+surdens_eff = np.genfromtxt("resultats/Delta_eff.txt")
 effmax = t_deltaeff.argmax()
 tmax = t_deltaeff[effmax]
+
 plt.figure()
 plt.plot(surdens_eff, t_deltaeff)
 plt.title("Temps d'effondrement en fonction de la surdensité d'effondrement")
@@ -65,9 +69,10 @@ plt.ylabel("Temps d'effondrement (milliards d'années)")
 plt.xscale('log')
 plt.legend()
 
+plt.show()
 # Temps d'effondrement en fonction du pas de temps
-temps_fctN = np.genfromtxt("temps_fctN.txt")
-N = np.genfromtxt("pas_temps.txt")
+temps_fctN = np.genfromtxt("resultats/temps_fctN.txt")
+N = np.genfromtxt("resultats/pas_temps.txt")
 pas_temps = np.zeros(len(N))
 for i in range(0, len(N)):
     pas_temps[i] = float((tf - ti) / N[i])
