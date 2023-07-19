@@ -2,7 +2,7 @@ import numpy as np
 from cosmofunc import H, ti, ttab, dt, milliard_annee, eq_diff_lin
 
 
-def Euler_lin(delta_i, delta_eff):
+def euler(delta_i, delta_eff):
     p_i = H(ti) * delta_i
     delta_p = np.zeros((len(ttab), 2))
     delta_p[0, 0], delta_p[0, 1] = delta_i, p_i
@@ -18,7 +18,7 @@ def Euler_lin(delta_i, delta_eff):
     return delta_p
 
 
-def rk2_lin(delta_i, delta_eff):
+def rk2(delta_i, delta_eff):
     pi = delta_i * H(ti)
     delta_p = np.zeros((len(ttab), 2))
     delta_p[0, 0], delta_p[0, 1] = delta_i, pi
@@ -35,7 +35,7 @@ def rk2_lin(delta_i, delta_eff):
     return delta_p
 
 
-def rk4_lin(delta_i, delta_eff):
+def rk4(delta_i, delta_eff):
     pi = delta_i * H(ti)
     delta_p = np.zeros((len(ttab), 2))
     delta_p[0, 0], delta_p[0, 1] = delta_i, pi
