@@ -3,8 +3,6 @@ import numpy as np
 import os
 import time
 
-os.chdir("resultats")
-
 surd_mini = 0.001777656936645508
 
 # TODO: Avoir des fonctions RK2, RK4, etc indépendantes des deltas, tq:
@@ -99,8 +97,8 @@ if __name__ == '__main__':
     x, teff = rk4(4 * surd_mini, 3 * 1e4)
     # ITERATIONS SUR LES SURDENSITES INITIALES
 
-    temps_eff = open("temps_eff.txt", "w")
-    surdens_init = open("surdensité_initiale.txt", "w")
+    temps_eff = open("resultats/temps_eff.txt", "w")
+    surdens_init = open("resultats/surdensité_initiale.txt", "w")
     # On part de la surdensité qui s'effondre à l'âge de l'univers
     surd_init = np.linspace(0.001777656936645508, 15 * 0.001777656936645508, 100)
     for delta_i in surd_init:
@@ -112,8 +110,8 @@ if __name__ == '__main__':
 
     # ITERATIONS SUR SURDENSITÉ D'EFFONDREMENT
 
-    temps_eff = open("temps_deltaeff.txt", "w")
-    surdens_eff = open("Delta_eff.txt", "w")
+    temps_eff = open("resultats/temps_deltaeff.txt", "w")
+    surdens_eff = open("resultats/Delta_eff.txt", "w")
     surd_eff = np.linspace(1e3, 1e6, 1000)
     for delta_eff in surd_eff:
         z, eff = rk4(4 * surd_mini, delta_eff)
@@ -124,8 +122,8 @@ if __name__ == '__main__':
 
     # ITERATIONS SUR LE PAS DE TEMPS
 
-    temps_fctN = open("temps_fctN.txt", "w")
-    pas_temps = open("pas_temps.txt", "w")
+    temps_fctN = open("resultats/temps_fctN.txt", "w")
+    pas_temps = open("resultats/pas_temps.txt", "w")
     for N in range(5000, 10000):
         temps = np.linspace(ti, tf, round(N))
         dt1 = (tf - ti) / N
