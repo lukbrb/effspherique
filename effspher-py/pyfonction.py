@@ -1,5 +1,5 @@
 import unittest
-from effspherpy.linear import euler
+from ..linear import euler
 
 
 class MyTestCase(unittest.TestCase):
