@@ -1,4 +1,4 @@
-from Sol_nonlin import rk4
+import nonlinear
 from cosmofunc import H0
 
 """On cherche ici la surdensité minimale telle que le temps d'effondrement soit égal à celui de l'âge de l'univers, 
@@ -9,18 +9,18 @@ temps_eff = 2 / (3 * H0)  # L'âge de l'univers
 
 def cond_init(d_i_min, d_i_max, tolerance, delta_eff, t_eff):
     # Chercher le temps d'effondrement pour d_i_min
-    sol1, temps_eff_max = rk4(d_i_min, delta_eff)
+    sol1, temps_eff_max = nonlinear.rk4(d_i_min, delta_eff)
     if temps_eff_max < t_eff:
         print("Surdensité minimum trop grande")
     # Chercher le temps d'effondrement pour d_i_min
-    sol2, temps_eff_min = rk4(d_i_max, delta_eff)
+    sol2, temps_eff_min = nonlinear.rk4(d_i_max, delta_eff)
     if t_eff < temps_eff_min:
         print("Surdensité maximum trop petite")
 
     inter = abs(d_i_max - d_i_min)
     while inter > tolerance:
         milieu = (d_i_min + d_i_max) / 2
-        sol, temps_moy = rk4(milieu, delta_eff)
+        sol, temps_moy = nonlinear.rk4(milieu, delta_eff)
         if temps_moy > t_eff:
             d_i_min = milieu
         else:
