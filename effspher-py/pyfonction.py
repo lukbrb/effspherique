@@ -1,10 +1,11 @@
 import unittest
-from linear import euler
+from viriel import surd_viriel_finale
 
 
 class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, True)  # add assertion here
+
+    def test_val_surdensite_viriel(self):
+        self.assertEqual(int(surd_viriel_finale), 173)
 
 
 if __name__ == '__main__':
