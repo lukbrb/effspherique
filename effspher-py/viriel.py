@@ -107,7 +107,8 @@ Ec = Ecin(v)
 Ectest = Ecin(Vitesse2)
 Epvir = (3 * G * Masse ** 2) / (5 * Rvir)
 
-print("Surdensité viriel finale :", 1 + delta_vir * (a(teff) / a(tvir1)) ** 3)
+surd_viriel_finale = 1 + delta_vir * (a(teff) / a(tvir1)) ** 3
+print("Surdensité viriel finale :", surd_viriel_finale)
 print(delta_final[410] + 1)  # Ici l'indice n'est valable que pour une certaine valeur de N (pour N=5000)
 
 if __name__ == '__main__':
