@@ -104,3 +104,4 @@ if __name__ == '__main__':
     print("Nouvelle RK4 non-linéaire:", res3)
     res6 = rk4(init, eq_diff_lin, tf, dt=1e-5, max_density=1e4)
     print("Nouvelle RK4 linéaire:", res6)
+    # TODO: Ajout graphiques pour une comparaison plus visuelle
