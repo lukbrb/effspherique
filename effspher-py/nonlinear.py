@@ -1,6 +1,5 @@
 from cosmofunc import H, ti, ttab, eq_diff, dt, milliard_annee, tf
 import numpy as np
-import os
 import time
 
 surd_mini = 0.001777656936645508
@@ -95,7 +94,7 @@ def Euler(_delta_i, _delta_eff):
 
 if __name__ == '__main__':
     x, teff = rk4(4 * surd_mini, 3 * 1e4)
-    # ITERATIONS SUR LES SURDENSITES INITIALES
+    # ITERATIONS SUR LES SURDENSITÉS INITIALES
 
     temps_eff = open("resultats/temps_eff.txt", "w")
     surdens_init = open("resultats/surdensité_initiale.txt", "w")
