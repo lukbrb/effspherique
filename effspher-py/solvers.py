@@ -1,7 +1,5 @@
 import numpy as np
 
-from cosmofunc import H, tf, ti, milliard_annee, eq_diff
-
 
 def euler(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
     """
@@ -80,6 +78,10 @@ def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
 
 
 if __name__ == '__main__':
+    from cosmofunc import H, tf, ti, milliard_annee, eq_diff, eq_diff_lin
+    from nonlinear import rk4 as rk4_nlin
+    from linear import rk4 as rk4_lin
+
     surd_mini = 0.001777656936645508
     tf /= milliard_annee
     ti /= milliard_annee
@@ -92,3 +94,13 @@ if __name__ == '__main__':
     print(res2)
     res3 = rk4(init, eq_diff, tf, dt=1e-5, max_density=1e4)
     print(res3)
+    # Comparaison avec les vieilles fonctions
+    res4 = rk4_nlin(4 * surd_mini, 1e4)
+    res5 = rk4_lin(4 * surd_mini, 1e4)
+    print("-" * 50)
+    print("Ancienne RK4 non-linéaire:", res4[0][-1, 0])
+    print("Ancienne RK4 linéaire:", res5[-1, 0])
+    print("-" * 50)
+    print("Nouvelle RK4 non-linéaire:", res3)
+    res6 = rk4(init, eq_diff_lin, tf, dt=1e-5, max_density=1e4)
+    print("Nouvelle RK4 linéaire:", res6)
