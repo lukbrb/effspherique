@@ -133,10 +133,10 @@ if __name__ == '__main__':
     plt.legend()
 
     plt.figure()
-
     plt.plot(ttab, abs(v), label="Vitesse théorique")
     plt.plot(ttab, abs(Vitesse2), label="Vitesse numérique")
     plt.xscale('log')
     plt.yscale('log')
     plt.legend()
+    
     plt.show()
