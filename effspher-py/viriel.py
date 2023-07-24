@@ -138,5 +138,5 @@ if __name__ == '__main__':
     plt.xscale('log')
     plt.yscale('log')
     plt.legend()
-    
+
     plt.show()
