@@ -11,9 +11,11 @@ def euler(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
         - t_max : Borne supérieure du domaine temporel (d'intégration)
         - dt : le pas d'intégration
         - max_density : valeur maximale autorisée pour la densité
-    :return delta_f, t_f
+    :return delta, t
     """
 
+    results = []
+    ttab = []
     delta, p, t = init_conds
     while t <= t_max and delta <= max_density:
         step = function([delta, p], t) * dt
@@ -21,8 +23,10 @@ def euler(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
         delta += p * dt
 
         t += dt
+        results.append(delta)
+        ttab.append(t)
 
-    return delta, t
+    return results, ttab
 
 
 def rk2(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
@@ -37,7 +41,8 @@ def rk2(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
             - max_density : valeur maximale autorisée pour la densité
         :return delta_f, t_f
         """
-
+    results = []
+    ttab = []
     delta, p, t = init_conds
     while t <= t_max and delta <= max_density:
         k1 = function([delta, p], t)
@@ -46,8 +51,10 @@ def rk2(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
         delta += p * dt
 
         t += dt
+        results.append(delta)
+        ttab.append(t)
 
-    return delta, t
+    return results, ttab
 
 
 def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
@@ -62,7 +69,8 @@ def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
             - max_density : valeur maximale autorisée pour la densité
         :return delta_f, t_f
         """
-
+    results = []
+    ttab = []
     delta, p, t = init_conds
     while t <= t_max and delta <= max_density:
         k1 = function([delta, p], t)
@@ -73,11 +81,15 @@ def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
         delta += p * dt
 
         t += dt
+        results.append(delta)
+        ttab.append(t)
 
-    return delta, t
+    return results, ttab
 
 
 if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+
     from cosmofunc import H, tf, ti, milliard_annee, eq_diff, eq_diff_lin
     from nonlinear import rk4 as rk4_nlin
     from linear import rk4 as rk4_lin
@@ -89,19 +101,32 @@ if __name__ == '__main__':
     print(f"Temps initial: {tf : .2f} milliards d'années")
     init = (4 * surd_mini, 4 * surd_mini * H(ti), ti)
     res1 = euler(init, eq_diff, tf, dt=1e-5, max_density=1e4)
-    print(res1)
     res2 = rk2(init, eq_diff, tf, dt=1e-5, max_density=1e4)
-    print(res2)
     res3 = rk4(init, eq_diff, tf, dt=1e-5, max_density=1e4)
-    print(res3)
+
     # Comparaison avec les vieilles fonctions
     res4 = rk4_nlin(4 * surd_mini, 1e4)
+
+
+    plt.figure()
+    plt.title("Comparaison pour les solutions non-linéaires")
+    plt.plot(res1[1], res1[0], label="Méthode d'Euler")
+    plt.plot(res2[1], res2[0], label="Méthode RK2")
+    plt.plot(res3[1], res3[0], label="Méthode RK4")
+    plt.yscale('log')
+    # plt.plot(res4[1]/milliard_annee, res4[0][:, 0], '--r', label="Ancienne Méthode RK4")
+    plt.legend()
+    plt.show()
+
     res5 = rk4_lin(4 * surd_mini, 1e4)
-    print("-" * 50)
-    print("Ancienne RK4 non-linéaire:", res4[0][-1, 0])
-    print("Ancienne RK4 linéaire:", res5[-1, 0])
-    print("-" * 50)
-    print("Nouvelle RK4 non-linéaire:", res3)
     res6 = rk4(init, eq_diff_lin, tf, dt=1e-5, max_density=1e4)
-    print("Nouvelle RK4 linéaire:", res6)
-    # TODO: Ajout graphiques pour une comparaison plus visuelle
+
+    plt.figure()
+    plt.title("Comparaison pour les solutions linéaires")
+    plt.plot(res6[1], res6[0], label="Méthode RK4")
+    plt.plot(res5[1]/milliard_annee, res5[0][:, 0], label="Ancienne Méthode RK4")
+    plt.plot(res6[1], np.array(res6[1])**(2/3), label="t^{2/3}")
+    # plt.yscale('log')
+    plt.legend()
+    plt.show()
+
