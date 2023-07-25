@@ -25,10 +25,10 @@ plt.ylabel('Valeur de la surdensité')
 plt.legend()
 
 # Temps d'effondrement en fonction de la surdensité initiale
-t_eff = np.genfromtxt("resultats/temps_eff.txt")
+t_eff = np.genfromtxt("effspher-py/resultats/temps_eff.txt")
 for i in range(0, len(t_eff)):
     t_eff[i] = float(t_eff[i]) / milliard_annee
-surdens_init = np.genfromtxt("resultats/surdensité_initiale.txt")
+surdens_init = np.genfromtxt("effspher-py/resultats/surdensité_initiale.txt")
 
 plt.figure()
 plt.plot(surdens_init, t_eff, '+')
@@ -50,10 +50,10 @@ plt.legend()
 
 # Temps d'effondrement en fonction de la surdensité d'effondrement
 
-t_deltaeff = np.genfromtxt("resultats/temps_deltaeff.txt")
+t_deltaeff = np.genfromtxt("effspher-py/resultats/temps_deltaeff.txt")
 for i in range(0, len(t_deltaeff)):
     t_deltaeff[i] = float(t_deltaeff[i]) / milliard_annee
-surdens_eff = np.genfromtxt("resultats/Delta_eff.txt")
+surdens_eff = np.genfromtxt("effspher-py/resultats/Delta_eff.txt")
 effmax = t_deltaeff.argmax()
 tmax = t_deltaeff[effmax]
 
