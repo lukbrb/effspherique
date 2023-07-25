@@ -71,7 +71,7 @@ def rk4(_delta_i, _delta_eff):
         print("Effondrement à ", t_eff / milliard_annee, "milliards d'années, indice", argmax)
     tps2 = time.time()
     print("Temps de calcul RK4 :", tps2 - tps1, "secondes")
-    return delta_p, t_eff
+    return delta_p, ttab
 
 
 def Euler(_delta_i, _delta_eff):

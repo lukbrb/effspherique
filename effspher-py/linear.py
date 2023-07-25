@@ -55,7 +55,7 @@ def rk4(delta_i, delta_eff):
         temps_eff = 0
         print("La surdensité ne s'est pas encore effondrée ")
 
-    return delta_p
+    return delta_p, ttab
 
 
 def equation(delta_et_p, _ttab):
