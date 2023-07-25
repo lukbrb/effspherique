@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def euler(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
+def euler(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     """
     Fonction qui calcule l'algorithme d'Euler explicit (ou implicit ?).
     -------------
@@ -29,7 +29,7 @@ def euler(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
     return results, ttab
 
 
-def rk2(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
+def rk2(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     """
         Fonction qui calcule l'algorithme de Runge-Kutta 2.
         -------------
@@ -57,11 +57,11 @@ def rk2(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
     return results, ttab
 
 
-def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
+def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     """
         Fonction qui calcule l'algorithme de Runge-Kutta 4.
         -------------
-        Arguments:
+        :argument
             - init_conds: tuple (delta_0, p_0, t_0) des conditions initiales
             - function : fonction directrice du système. Supposée ici f(x,t)
             - t_max : Borne supérieure du domaine temporel (d'intégration)
@@ -72,6 +72,7 @@ def rk4(init_conds, function, t_max, dt=1e-3, max_density=np.inf):
     results = []
     ttab = []
     delta, p, t = init_conds
+
     while t <= t_max and delta <= max_density:
         k1 = function([delta, p], t)
         k2 = function([delta, p + (dt * k1) / 2], t + dt / 2)
