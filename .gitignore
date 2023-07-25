@@ -4,3 +4,5 @@ Projet1-bis/.ipynb_checkpoints/
 .idea/
 *.mp4
 *.mod
+/effspher-py/resultats/
+.DS_Store
