@@ -1,30 +1,42 @@
 module solvers
+    use cosmofunc, only: H, eq_diff
     implicit none
     private
 
-    public :: rk4, H
+    public :: rk2, rk4
 
 contains
-    function H(t) result(hubble_cst)
-        real, intent(in) :: t
-        real :: hubble_cst
-        hubble_cst = 2 / (3 * t)
-    end function H
-
-    function eq_diff(d, p, t) result(val_eq)
-        real, intent(in) :: d, p, t
-        real :: val_eq
-        val_eq = -2 * H(t) * p + 1.5 * (H(t) ** 2) * d
-    end function eq_diff
-
-    function rk4(di, pi, ti, t_max, dt, max_density) result(teff)
+    function rk2(di, ti, t_max, dt, max_density) result(t_and_delta)
         implicit none
-        real, intent(in) :: di, pi, ti, t_max, dt, max_density
-        real :: delta, p, t, teff
-        real :: k1, k2, k3, k4
+        real, intent(in) :: di, ti, t_max, dt, max_density
+        real :: delta, p, t
+        real :: k1, k2
+        real, dimension(2) :: t_and_delta
 
         delta = di
-        p = pi 
+        p = H(ti) * di
+        t = ti
+        do while(t <= t_max .and. delta <= max_density)
+            k1 = eq_diff(delta, p, t)
+            k2 = eq_diff(delta, p + dt * k1, t + dt)
+            p = p + 0.5 * dt * (k1 + k2)
+            delta = delta + p * dt
+
+            t = t + dt
+            ! print *, 't=', t, 'delta=', delta
+        end do
+        t_and_delta = [t, delta]
+    end function rk2
+
+    function rk4(di, ti, t_max, dt, max_density) result(t_and_delta)
+        implicit none
+        real, intent(in) :: di, ti, t_max, dt, max_density
+        real :: delta, p, t
+        real :: k1, k2, k3, k4
+        real, dimension(2) :: t_and_delta
+
+        delta = di
+        p = H(ti) * di
         t = ti
         do while(t <= t_max .and. delta <= max_density)
             k1 = eq_diff(delta, p, t)
@@ -35,9 +47,8 @@ contains
             delta = delta + p * dt
 
             t = t + dt
-            print *, 't=', t, 'delta=', delta
+            ! print *, 't=', t, 'delta=', delta
         end do
-
-        teff = t
+        t_and_delta = [t, delta]
     end function rk4  
 end module solvers
