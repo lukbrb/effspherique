@@ -8,7 +8,7 @@ rho_crit = (3 * H0 ** 2) / (8 * np.pi * G)  # Densité critique
 sig = 1  # Densité de l'univers
 milliard_annee = 3600 * 24 * 365 * 1e9
 age_univ = 2 / (3 * H0)  # L'âge de l'univers
-surd_mini = 0.001777656936645508  # Surdensité mini pour que teff <= age_univers
+surd_mini = 0.0017104343414306644  # Surdensité mini pour que teff <= age_univers
 # CONDITIONS INITIALES
 # On veut ti très petit devant 1/H0, or 1/H0= 4.4e17s (=13 952 308 472 ans)
 # On peut donc prendre ti=300000 ans par exemple
