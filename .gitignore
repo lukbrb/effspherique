@@ -6,3 +6,4 @@ Projet1-bis/.ipynb_checkpoints/
 *.mod
 /effspher-py/resultats/
 .DS_Store
+effspher-py/Itération_ci.py
