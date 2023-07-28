@@ -1,6 +1,7 @@
 program main
   use solvers, only: rk2, rk4, euler
   use cosmofunc, only: di, ti, t_max
+  use paramtune, only: cond_init, iterate_on_param
   implicit none
 
   real :: dt = 1e-5
@@ -13,6 +14,7 @@ program main
   print *, 'Résultat Euler explicit :', resulte
   print *, 'Résultat RK2 :', result2
   print *, 'Résultat RK4 :', result4
+
   ! call say_hello()
 
 end program main
