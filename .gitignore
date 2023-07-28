@@ -1,9 +1,8 @@
 __pycache__
 effspher-py/graphes
-Projet1-bis/.ipynb_checkpoints/
+effspher-nb/.ipynb_checkpoints/
 .idea/
 *.mp4
 *.mod
 /effspher-py/resultats/
 .DS_Store
-effspher-py/Itération_ci.py
