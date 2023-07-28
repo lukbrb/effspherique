@@ -3,7 +3,7 @@ import numpy as np
 
 def euler(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     """
-    Fonction qui calcule l'algorithme d'Euler explicit (ou implicit ?).
+    Fonction qui calcule l'algorithme d'Euler explicit.
     -------------
     Arguments:
         - init_conds: tuple (delta_0, p_0, t_0) des conditions initiales
