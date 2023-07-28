@@ -2,7 +2,7 @@ module cosmofunc
     implicit none
     private
 
-    public :: H, eq_diff_lin, eq_diff, di, ti, t_max
+    public :: H, eq_diff_lin, eq_diff, di, ti, t_max, age_univers
     
     real, parameter :: Mp = 3.08567758 * 1E22  ! Valeur d un mégaparsec
     real, parameter :: H0 = 7 * 1e4 / Mp
@@ -10,6 +10,7 @@ module cosmofunc
     real, parameter :: ti = (300000. * 365. * 24. * 3600.) / Gyr
     real, parameter :: di = 0.0017104343414306644
     real, parameter :: t_max = (1 / H0) / Gyr
+    real, parameter :: age_univers =  (2 / (3 * H0)) / Gyr
 
 contains
 
