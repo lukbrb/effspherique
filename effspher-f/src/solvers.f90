@@ -7,6 +7,15 @@ module solvers
 
 contains
     function euler(di, ti, t_max, dt, max_density) result(t_and_delta)
+    ! Fonction qui calcule l'algorithme d'Euler explicit.
+    !   -------------
+    !   Arguments:
+    !       - init_conds: tuple (delta_0, t_0) des conditions initiales
+    !       - function : fonction directrice du système. Supposée ici f(x,t)
+    !       - t_max : Borne supérieure du domaine temporel (d'intégration)
+    !       - dt : le pas d'intégration
+    !       - max_density : valeur maximale autorisée pour la densité
+    !   :return t, delta
         implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, p, t, step
@@ -26,6 +35,16 @@ contains
     end function euler
 
     function rk2(di, ti, t_max, dt, max_density) result(t_and_delta)
+        ! Fonction qui calcule l'algorithme de Runge-Kutta 2.
+        ! -------------
+        ! Arguments:
+        !     - init_conds: tuple (delta_0, t_0) des conditions initiales
+        !     - function : fonction directrice du système. Supposée ici f(x,t)
+        !     - t_max : Borne supérieure du domaine temporel (d'intégration)
+        !     - dt : le pas d'intégration
+        !     - max_density : valeur maximale autorisée pour la densité
+        ! :return t, delta
+
         implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, p, t
@@ -48,6 +67,15 @@ contains
     end function rk2
 
     function rk4(di, ti, t_max, dt, max_density) result(t_and_delta)
+        ! Fonction qui calcule l'algorithme de Runge-Kutta 2.
+        ! -------------
+        ! Arguments:
+        !     - init_conds: tuple (delta_0, t_0) des conditions initiales
+        !     - function : fonction directrice du système. Supposée ici f(x,t)
+        !     - t_max : Borne supérieure du domaine temporel (d'intégration)
+        !     - dt : le pas d'intégration
+        !     - max_density : valeur maximale autorisée pour la densité
+        ! :return t, delta
         implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, p, t
