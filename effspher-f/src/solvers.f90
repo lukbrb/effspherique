@@ -3,9 +3,28 @@ module solvers
     implicit none
     private
 
-    public :: rk2, rk4
+    public :: euler, rk2, rk4
 
 contains
+    function euler(di, ti, t_max, dt, max_density) result(t_and_delta)
+        implicit none
+        real, intent(in) :: di, ti, t_max, dt, max_density
+        real :: delta, p, t, step
+        real, dimension(2) :: t_and_delta
+
+        delta = di
+        p = H(ti) * di
+        t = ti
+        do while(t <= t_max .and. delta <= max_density)
+            step = eq_diff(delta, p, t) * dt
+            p = p + step
+            delta = delta + p * dt
+
+            t = t + dt
+        end do
+        t_and_delta = [t, delta]
+    end function euler
+
     function rk2(di, ti, t_max, dt, max_density) result(t_and_delta)
         implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
