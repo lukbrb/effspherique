@@ -92,8 +92,9 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
     from cosmofunc import H, tf, ti, milliard_annee, eq_diff, eq_diff_lin
-    from nonlinear import rk4 as rk4_nlin
-    from linear import rk4 as rk4_lin
+
+    # from nonlinear import rk4 as rk4_nlin
+    # from linear import rk4 as rk4_lin
 
     surd_mini = 0.001777656936645508
     tf /= milliard_annee
@@ -106,8 +107,7 @@ if __name__ == '__main__':
     res3 = rk4(init, eq_diff, tf, dt=1e-5, max_density=1e4)
 
     # Comparaison avec les vieilles fonctions
-    res4 = rk4_nlin(4 * surd_mini, 1e4)
-
+    # res4 = rk4_nlin(4 * surd_mini, 1e4)
 
     plt.figure()
     plt.title("Comparaison pour les solutions non-linéaires")
@@ -119,15 +119,14 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
 
-    res5 = rk4_lin(4 * surd_mini, 1e4)
+    # res5 = rk4_lin(4 * surd_mini, 1e4)
     res6 = rk4(init, eq_diff_lin, tf, dt=1e-5, max_density=1e4)
 
     plt.figure()
     plt.title("Comparaison pour les solutions linéaires")
     plt.plot(res6[1], res6[0], label="Méthode RK4")
-    plt.plot(res5[1]/milliard_annee, res5[0][:, 0], label="Ancienne Méthode RK4")
-    plt.plot(res6[1], np.array(res6[1])**(2/3), label="t^{2/3}")
+    # plt.plot(res5[1]/milliard_annee, res5[0][:, 0], label="Ancienne Méthode RK4")
+    # plt.plot(res6[1], np.array(res6[1])**(2/3), label="t^{2/3}")
     # plt.yscale('log')
     plt.legend()
     plt.show()
-
