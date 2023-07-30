@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from cosmofunc import rho_m, G, a, H, dt, milliard_annee, surd_mini, eq_diff, tf, ti
 from solvers import rk4
 
+PLOT = False
 tf /= milliard_annee
 ti /= milliard_annee
 
@@ -119,9 +120,10 @@ Epvir = (3 * G * Masse ** 2) / (5 * Rvir)
 
 surd_viriel_finale = 1 + delta_vir * (a(teff) / a(tvir1)) ** 3
 print("Surdensité viriel finale :", surd_viriel_finale)
+print("Surdensité viriel finale attendue:", 18 * np.pi ** 2)
 print(delta_final[410] + 1)  # Ici l'indice n'est valable que pour une certaine valeur de N (pour N=5000)
 
-if __name__ == '__main__':
+if PLOT:
     plt.figure()
     plt.plot(ttab, 2 * Ectest, label="Energie cinétique en fonction de t")
     plt.plot(ttab, abs(Epp), label="Energie potentielle en fonction de t")
