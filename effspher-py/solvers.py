@@ -82,7 +82,7 @@ def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
         delta += p * dt
 
         t += dt
-        results.append(delta)
+        results.append([delta, p])
         ttab.append(t)
 
     return results, ttab
