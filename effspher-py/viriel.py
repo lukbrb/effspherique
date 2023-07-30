@@ -1,22 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from cosmofunc import rho_m, G, a, ttab1, ttab, H, dt, milliard_annee, surd_mini, eq_diff, tf, ti
+from cosmofunc import rho_m, G, a, H, dt, milliard_annee, surd_mini, eq_diff, tf, ti
 from solvers import rk4
 
 tf /= milliard_annee
 ti /= milliard_annee
 
 init = (4 * surd_mini, 4 * surd_mini * H(ti), ti)
-x, teff = rk4(init, eq_diff, tf, dt=1e-5, max_density=3*1e4)
-x = np.array(x)
+delta, p, ttab = rk4(init, eq_diff, tf, dt=1e-5, max_density=3 * 1e4)
+
+teff = ttab[-1]
 Masse = 1e16  # N'influe pas sur le résultat final de la surdensité
-delta = x[:, 0]
-dv = x[:, 1]
 
 
 # Fonction pour déterminer t lorsque Rviriel est atteint
-
 def t_viriel(borne_min, borne_max, tolerance, r, r_vir):
     for i in r[borne_min:borne_max]:
         inter = abs(i - r_vir)
@@ -57,8 +55,8 @@ def surdensite(index):
 
 def vitesse(r_final):
     r = r_final
-    _v = H(ttab) * r * (1 - (dv * r ** 3) / (9 * Masse * G * ttab))
-    v_test = H(ttab) * r - (r * dv) / (3 * (1 + delta))
+    _v = H(ttab) * r * (1 - (p * r ** 3) / (9 * Masse * G * ttab))
+    v_test = H(ttab) * r - (r * p) / (3 * (1 + delta))
     return _v, v_test
 
 
@@ -137,8 +135,8 @@ if __name__ == '__main__':
     # plt.plot(tmax,Rmax,'x',label="Rayon max")
     plt.plot(tvir1 / milliard_annee, Rvir, 'x', label="Rayon Viriel")
     plt.plot(tvir1 / milliard_annee, delta_vir, "+", label="Surdensité viriel")
-    plt.plot(ttab1, R_final, label="Rayon")
-    plt.plot(ttab1, delta_final, label="Surdensité")
+    plt.plot(ttab, R_final, label="Rayon")
+    plt.plot(ttab, delta_final, label="Surdensité")
     plt.plot(tmax / milliard_annee, Rmax, 'x', label="Rayon max")
     plt.xscale('log')
     plt.yscale('log')
