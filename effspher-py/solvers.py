@@ -70,6 +70,7 @@ def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
         :return delta_f, t_f
         """
     results = []
+    derivee = []
     ttab = []
     delta, p, t = init_conds
 
@@ -82,13 +83,15 @@ def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
         delta += p * dt
 
         t += dt
-        results.append([delta, p])
+        results.append(delta)
+        derivee.append(p)
         ttab.append(t)
 
-    return results, ttab
+    return np.array(results), np.array(derivee), np.array(ttab)
 
 
 if __name__ == '__main__':
+    # TODO: Changer code pour prendre en compte modif rk4
     import matplotlib.pyplot as plt
 
     from cosmofunc import H, tf, ti, milliard_annee, eq_diff, eq_diff_lin
