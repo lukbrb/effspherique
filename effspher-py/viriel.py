@@ -1,9 +1,15 @@
 import numpy as np
-from cosmofunc import rho_m, G, a, ttab1, ttab, H, dt, milliard_annee
-import nonlinear
 import matplotlib.pyplot as plt
 
-x, teff = nonlinear.rk4(4 * nonlinear.surd_mini, 3 * 1e4)
+from cosmofunc import rho_m, G, a, ttab1, ttab, H, dt, milliard_annee, surd_mini, eq_diff, tf, ti
+from solvers import rk4
+
+tf /= milliard_annee
+ti /= milliard_annee
+
+init = (4 * surd_mini, 4 * surd_mini * H(ti), ti)
+x, teff = rk4(init, eq_diff, tf, dt=1e-5, max_density=3*1e4)
+x = np.array(x)
 Masse = 1e16  # N'influe pas sur le résultat final de la surdensité
 delta = x[:, 0]
 dv = x[:, 1]
@@ -39,14 +45,20 @@ def surdensite(index):
 
 # Vitesse calculée analytiquement
 # TODO: Probablement vectorisable
+# def vitesse(r_final):
+#     r = r_final
+#     _v = np.zeros(len(r))
+#     v_test = np.zeros(len(r))
+#     for i in range(0, len(r)):
+#         t = ttab[i]
+#         _v[i] = H(t) * r[i] * (1 - (dv[i] * r[i] ** 3) / (9 * Masse * G * t))
+#         v_test[i] = H(t) * r[i] - (r[i] * dv[i]) / (3 * (1 + delta[i]))
+#     return _v, v_test
+
 def vitesse(r_final):
     r = r_final
-    _v = np.zeros(len(r))
-    v_test = np.zeros(len(r))
-    for i in range(0, len(r)):
-        t = ttab[i]
-        _v[i] = H(t) * r[i] * (1 - (dv[i] * r[i] ** 3) / (9 * Masse * G * t))
-        v_test[i] = H(t) * r[i] - (r[i] * dv[i]) / (3 * (1 + delta[i]))
+    _v = H(ttab) * r * (1 - (dv * r ** 3) / (9 * Masse * G * ttab))
+    v_test = H(ttab) * r - (r * dv) / (3 * (1 + delta))
     return _v, v_test
 
 
