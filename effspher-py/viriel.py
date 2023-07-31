@@ -34,12 +34,15 @@ def t_viriel(borne_min, borne_max, tolerance, r, r_vir):
 # Fonction qui fait évoluer la surdensité après la surdensité viriel
 
 # TODO: Vectoriser cette fonction
-def surdensite(index):
-    for i in range(0, index):
-        delta[i] = delta[i]
-    for i in range(index, len(delta)):
-        delta[i] = rho_vir / rho_m(ttab[i]) - 1
-    return delta
+# def surdensite(index):
+#     for i in range(0, index):
+#         delta[i] = delta[i]
+#     for i in range(index, len(delta)):
+#         delta[i] = rho_vir / rho_m(ttab[i]) - 1
+#     return delta
+def surdensite(_delta, index):
+    _delta[index:] = rho_vir / rho_m(ttab[index:]) - 1
+    return _delta
 
 
 # Vitesse calculée analytiquement
@@ -96,7 +99,7 @@ Rvir = Rmax * 0.5
 
 # On ajuste les valeurs de la surdensité une fois R_vir atteint
 
-tvir1 = t_viriel(377, 378, 1e-6, R, Rvir)
+tvir1 = t_viriel(0, len(delta), 1e-6, R, Rvir)
 rho_vir = (3 * Masse) / (4 * np.pi * Rvir ** 3)  # Densité volumique de virialisation
 delta_vir = rho_vir / rho_m(tvir1) - 1  # Surdensité viriel
 delta[delta > delta_vir] = delta_vir  # Obsolète
@@ -105,7 +108,7 @@ print("Indice de la virialisation :", indice)
 print("Temps viriel calculé avec la fonction", tvir1)
 
 # Rayon et surdensité finaux
-delta_final = surdensite(indice)
+delta_final = surdensite(delta, indice)
 R_final = ((3 * Masse) / (4 * np.pi * rho_m(ttab) * (1 + delta_final))) ** (1 / 3)
 
 # Calcul des vitesses via méthodes numériques et formule analytique
@@ -121,7 +124,7 @@ Epvir = (3 * G * Masse ** 2) / (5 * Rvir)
 surd_viriel_finale = 1 + delta_vir * (a(teff) / a(tvir1)) ** 3
 print("Surdensité viriel finale :", surd_viriel_finale)
 print("Surdensité viriel finale attendue:", 18 * np.pi ** 2)
-print(delta_final[410] + 1)  # Ici l'indice n'est valable que pour une certaine valeur de N (pour N=5000)
+# print(delta_final[410] + 1)  # Ici l'indice n'est valable que pour une certaine valeur de N (pour N=5000)
 
 if PLOT:
     plt.figure()
