@@ -33,6 +33,10 @@ def rho_m(t):
     return (sig * rho_crit) / (a(t) ** 3)
 
 
+def rho(r, m):
+    return (3 * m) / (4 * np.pi * r**3)
+
+
 def eq_diff_lin(delta_et_p, _ttab):
     return -2 * H(_ttab) * delta_et_p[1] + 1.5 * (H(_ttab) ** 2) * delta_et_p[0]
 
