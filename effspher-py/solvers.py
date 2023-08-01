@@ -1,5 +1,5 @@
 import numpy as np
-
+from cosmofunc import H
 
 def euler(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     """
@@ -57,7 +57,7 @@ def rk2(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     return results, ttab
 
 
-def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
+def rk4(delta_i, _ti, function, t_max, dt=1e-5, max_density=np.inf):
     """
         Fonction qui calcule l'algorithme de Runge-Kutta 4.
         -------------
@@ -72,7 +72,8 @@ def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
     results = []
     derivee = []
     ttab = []
-    delta, p, t = init_conds
+    delta, t = delta_i, _ti
+    p = delta_i * H(_ti)
 
     while t <= t_max and delta <= max_density:
         k1 = function([delta, p], t)
@@ -88,6 +89,8 @@ def rk4(init_conds, function, t_max, dt=1e-5, max_density=np.inf):
         ttab.append(t)
 
     return np.array(results), np.array(derivee), np.array(ttab)
+
+# TODO: Faire un solveur qui s'arrête à une densité précise (peut-être juste adepter rk4 etc)
 
 
 if __name__ == '__main__':
