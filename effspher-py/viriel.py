@@ -11,15 +11,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from cosmofunc import H, G, surd_mini, ti, eq_diff, tf, milliard_annee, rho_m, rho, a
-from solvers import rk4
+from solvers import integrateur
 
-PLOT = True
+PLOT = False
 
 tf /= milliard_annee
 ti /= milliard_annee
-
+dt = 1e-3
 masse = 1e16
-delta, ddelta, ttab = rk4(4 * surd_mini, ti, eq_diff, tf, dt=1e-5, max_density=3 * 1e4)
+delta, ddelta, ttab = integrateur(4 * surd_mini, ti, eq_diff, tf, dt=dt, max_density=4 * 1e7, array=True)
 
 R = ((3 * masse) / (4 * np.pi * rho_m(ttab) * (1 + delta))) ** (1 / 3)
 
@@ -68,10 +68,10 @@ def find_rvir(r, t, energie=False):
     return r[ivir], t[ivir]
 
 
-Rta, tmax = find_rta(R, ttab, energie=False)
+Rta, tmax = find_rta(R, ttab, energie=True)
 Rvir, tvir = find_rvir(R, ttab, energie=True)
-delta_vir, _, _ = rk4(4 * surd_mini, ti, eq_diff, t_max=tvir, dt=1e-5, max_density=3 * 1e4)
-delta_vir = delta_vir[-1]
+delta_vir, _, _ = integrateur(4 * surd_mini, ti, eq_diff, t_max=tvir, dt=dt, max_density=3 * 1e4)
+
 delta_vir2 = rho(Rvir, masse) / rho_m(tvir) - 1
 print(delta_vir, delta_vir2, (18 * np.pi**2) / ((a(ttab[-1]) / a(tvir)) ** 3))
 delta_fin = 1 + delta_vir * (a(ttab[-1]) / a(tvir)) ** 3
