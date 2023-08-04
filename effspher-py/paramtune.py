@@ -4,12 +4,8 @@ modifier les paramètres du modèle, et d'étudier leur impact sur la solution.
 """
 import numpy as np
 
-from solvers import rk4
-from cosmofunc import age_univ, surd_mini, ti, tf, H, eq_diff, milliard_annee
-
-tf /= milliard_annee
-ti /= milliard_annee
-age_univ /= milliard_annee
+from solvers import integrateur
+from cosmofunc import age_univ, surd_mini, ti, tf, H, eq_diff
 
 
 def cond_init(d_i_min, d_i_max, tolerance, delta_eff, t_eff):
@@ -18,24 +14,21 @@ def cond_init(d_i_min, d_i_max, tolerance, delta_eff, t_eff):
     dans un univers d'Einstein - De Sitter.
     """
     # Chercher le temps d'effondrement pour d_i_min
-    init = (d_i_min, d_i_min * H(ti), ti)
-    sol1, ttab = rk4(init, eq_diff, tf, max_density=delta_eff)
-    temps_eff_max = ttab[-1]
+    sol1, _, temps_eff_max = integrateur(d_i_min, ti, eq_diff, tf, max_density=delta_eff)
+
     if temps_eff_max < t_eff:
         print("Surdensité minimum trop grande")
     # Chercher le temps d'effondrement pour d_i_max
-    init = (d_i_max, d_i_max * H(ti), ti)
-    sol2, ttab = rk4(init, eq_diff, tf, max_density=delta_eff)
-    temps_eff_min = ttab[-1]
+    sol2, _, temps_eff_min = integrateur(d_i_max, ti, eq_diff, tf, max_density=delta_eff)
+
     if t_eff < temps_eff_min:
         print("Surdensité maximum trop petite")
 
     inter = abs(d_i_max - d_i_min)
     while inter > tolerance:
         milieu = (d_i_min + d_i_max) / 2
-        init = (milieu, milieu * H(ti), ti)
-        sol, temps_moy = rk4(init, eq_diff, tf, max_density=delta_eff)
-        if temps_moy[-1] > t_eff:
+        sol, _, temps_moy = integrateur(milieu, ti, eq_diff, tf, max_density=delta_eff)
+        if temps_moy > t_eff:
             d_i_min = milieu
         else:
             d_i_max = milieu
@@ -57,27 +50,22 @@ def iterate_on_param(kind: int, iterateur: np.ndarray, save_res: bool = True):
 
     if kind == 2:
         for e in iterateur:
-            delta, ttab = rk4(init, eq_diff, t_max=tf, dt=e)
-            results.append([e, ttab[-1]])
+            delta, _, teff = integrateur(4 * surd_mini, ti, eq_diff, t_max=tf, dt=e)
+            results.append([e, teff])
     elif kind == 1:
         for e in iterateur:
-            delta, ttab = rk4(init, eq_diff, t_max=tf, max_density=e)
-            results.append([e, ttab[-1]])
+            delta, _, teff = integrateur(4 * surd_mini, ti, eq_diff, t_max=tf, max_density=e)
+            results.append([e, teff])
     else:
         for e in iterateur:
-            init = (e, e * H(ti), ti)
-            delta, ttab = rk4(init, eq_diff, t_max=tf, max_density=1e4)
-            results.append([e, ttab[-1]])
+            delta, _, teff = integrateur(e, ti, eq_diff, t_max=tf, max_density=1e4)
+            results.append([e, teff])
 
     results = np.array(results)
     if save_res:
         np.savetxt(fname=f"resultats/{choix[kind]}.txt", X=results)
 
     return results
-
-
-# ITERATIONS SUR LES SURDENSITÉS INITIALES
-# On part de la surdensité qui s'effondre à l'âge de l'univers
 
 
 if __name__ == '__main__':
@@ -88,5 +76,5 @@ if __name__ == '__main__':
     iterate_on_param(kind=0, iterateur=surd_init)
     surd_eff = np.linspace(1e3, 1e6, 1000)
     iterate_on_param(kind=1, iterateur=surd_eff)
-    N = list(range(5000, 10000))
+    N = np.array(list(range(5000, 10000)))
     iterate_on_param(kind=2, iterateur=N)
