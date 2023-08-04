@@ -13,11 +13,11 @@ import matplotlib.pyplot as plt
 from cosmofunc import H, G, surd_mini, ti, eq_diff, tf, milliard_annee, rho_m, rho, a
 from solvers import integrateur
 
-PLOT = False
+PLOT = True
 
 tf /= milliard_annee
 ti /= milliard_annee
-dt = 1e-3
+dt = 1e-5
 masse = 1e16
 delta, ddelta, ttab = integrateur(4 * surd_mini, ti, eq_diff, tf, dt=dt, max_density=4 * 1e7, array=True)
 
@@ -70,7 +70,7 @@ def find_rvir(r, t, energie=False):
 
 Rta, tmax = find_rta(R, ttab, energie=True)
 Rvir, tvir = find_rvir(R, ttab, energie=True)
-delta_vir, _, _ = integrateur(4 * surd_mini, ti, eq_diff, t_max=tvir, dt=dt, max_density=3 * 1e4)
+delta_vir, _, _ = integrateur(4 * surd_mini, ti, eq_diff, t_max=tvir, dt=dt, max_density=4 * 1e7)
 
 delta_vir2 = rho(Rvir, masse) / rho_m(tvir) - 1
 print(delta_vir, delta_vir2, (18 * np.pi**2) / ((a(ttab[-1]) / a(tvir)) ** 3))
@@ -100,4 +100,11 @@ if PLOT:
     plt.ylabel('R(t)')
     # plt.yscale('log')
     plt.legend()
+
+    plt.figure()
+    plt.title("Évolution de la surdensité")
+    plt.plot(ttab, delta, '--k')
+    plt.xlabel('Temps (Gyr)')
+    plt.ylabel('Surdensité $\delta$')
+    plt.yscale('log')
     plt.show()
