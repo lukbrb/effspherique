@@ -22,7 +22,7 @@ class Surdensite:
         self.dt = dt
         self.max_density = max_density
         solution = integrateur(di, ti, eq_diff, tf, dt=dt, max_density=max_density, array=True)
-        self. delta, self.ddelta, self.ttab = solution
+        self.delta, self.ddelta, self.ttab = solution
         self.masse = masse
         self.R = ((3 * masse) / (4 * np.pi * rho_m(self.ttab) * (1 + self.delta))) ** (1 / 3)
         self.tvir = None
@@ -34,12 +34,12 @@ class Surdensite:
 
     def energie_cin(self, r):
         v = self.vitesse(r)
-        return (3 * self.masse * v**2) / 10
+        return (3 * self.masse * v ** 2) / 10
 
     def energie_pot(self, r):
-        return - (3 * G * self.masse**2) / (5 * r)
+        return - (3 * G * self.masse ** 2) / (5 * r)
 
-    def find_rta(self, energie=False):
+    def find_rta(self, energie=True):
         """ Fonction pour calculer le rayon de volte-face (ou donc rayon max)
             et le temps associé.
             Si energie=True, trouve Rta via Ecin = 0
@@ -67,6 +67,11 @@ class Surdensite:
         ivir = np.abs(self.vitesse(self.R) - vvir).argmin()
         return self.R[ivir], self.ttab[ivir]
 
+    def surd_ta(self, energie=True):
+        rta, tta = self.find_rta(energie=energie)
+        sol = integrateur(self.di, self.ti, self.equation, t_max=tta, dt=self.dt, max_density=self.max_density)
+        return sol[0]
+
     def surd_vir(self, _rho=False):
         self.rvir, self.tvir = self.find_rvir()
         if _rho:
@@ -80,3 +85,8 @@ class Surdensite:
             return 1 + dvir * (a(self.ttab[-1]) / a(self.tvir)) ** 3
         else:
             return None
+
+    def surd_eff(self, equation):
+        rta, tta = self.find_rta()
+        sol = integrateur(self.di, self.ti, equation, t_max=2 * tta, dt=self.dt, max_density=self.max_density)
+        return sol[0]
