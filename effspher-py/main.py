@@ -1,7 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
-from cosmofunc import age_univ, surd_mini, ti, eq_diff, tf
+from cosmofunc import age_univ, surd_mini, ti, tf, eq_diff, eq_diff_lin
 from paramtune import cond_init, iterate_on_param
 from viriel import Surdensite
 
@@ -28,12 +27,39 @@ if PARAMS:
     print("Détermination de la surdensité viriel:")
 
 if VIRIEL:
-    surdensite = Surdensite(4 * surd_mini, ti, eq_diff, tf, dt=1e-5, max_density=4 * 1e7)
-    surd_vir_calc = surdensite.surd_finale()
+    surdensite_nonlin = Surdensite(4 * surd_mini, ti, eq_diff, tf, dt=1e-5, max_density=4 * 1e7)
+    delta_ta_calc = surdensite_nonlin.surd_ta()
+    delta_ta_th = (9/16) * np.pi**2 - 1
+    surd_vir_calc = surdensite_nonlin.surd_finale()
     surd_vir_th = 18 * np.pi**2
+
+    print("Régime non-linéaire")
+    print('-' * 10)
+    print("Surdensité volte-face:", delta_ta_calc)
+    print("Surdensité volte-face théorique:", delta_ta_th)
+    print(f"Différence relative: {(abs(delta_ta_calc - delta_ta_th))/delta_ta_th : %}")
+    print('-' * 10)
     print("Surdensité viriel finale:", surd_vir_calc)
     print("Surdensité viriel théorique:", surd_vir_th)
     print(f"Différence relative: {(abs(surd_vir_calc - surd_vir_th))/surd_vir_th : %}")
+    print('-' * 10)
+    # =================== Linéaire ===================
+    surdensite_lin = Surdensite(4 * surd_mini, ti, eq_diff_lin, tf, dt=1e-5, max_density=1000)
+    delta_ta_calc_lin = surdensite_lin.surd_ta(energie=False)
+    delta_ta_th_lin = (3 / 20) * (6 * np.pi)**(2/3)
+    surd_eff_calc_lin = surdensite_lin.surd_eff(equation=eq_diff_lin)
+    surd_eff_th_lin = (3 / 5) * (1.5 * np.pi)**(2/3)
+
+    print("Régime linéaire")
+    print('-' * 10)
+    print("Surdensité volte-face:", delta_ta_calc_lin)
+    print("Surdensité volte-face théorique:", delta_ta_th_lin)
+    print(f"Différence relative: {(abs(delta_ta_calc_lin - delta_ta_th_lin)) / delta_ta_th_lin : %}")
+    print('-' * 10)
+    print("Surdensité effondrement:", surd_eff_calc_lin)
+    print("Surdensité effondrement théorique:", surd_eff_th_lin)
+    print(f"Différence relative: {(abs(surd_eff_calc_lin - surd_eff_th_lin)) / surd_eff_th_lin : %}")
+
 
 # if PLOT:
 #     plt.figure()
