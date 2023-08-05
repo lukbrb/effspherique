@@ -33,10 +33,9 @@ def rho(r, m):
     return (3 * m) / (4 * np.pi * r**3)
 
 
-def eq_diff_lin(delta_et_p, _ttab):
-    return -2 * H(_ttab) * delta_et_p[1] + 1.5 * (H(_ttab) ** 2) * delta_et_p[0]
+def eq_diff_lin(d, p, t):
+    return -2 * H(t) * p + 1.5 * (H(t) ** 2) * d
 
 
-def eq_diff(delta_et_p, t):
-    return -2 * H(t) * delta_et_p[1] + 1.5 * (H(t) ** 2) * delta_et_p[0] * (1 + delta_et_p[0]) + (4 / 3) * (
-            (delta_et_p[1] ** 2) / (1 + delta_et_p[0]))
+def eq_diff(d, p, t):
+    return -2 * H(t) * p + 1.5 * (H(t) ** 2) * d * (1 + d) + (4 / 3) * ((p ** 2) / (1 + d))
