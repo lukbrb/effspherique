@@ -1,17 +1,7 @@
 module viriel
-<<<<<<< HEAD
-    use cosmofunc, only: H
+    use cosmofunc, only: H, G
     implicit none
-    
-contains
-    function vitesse(r) result(v)
-        real, intent(in) :: r(:)
-        real :: v
-        v = 1.
-    end function
-=======
-    implicit none
-    use cosmofunc, only: G
+
     private
 
     real, parameter :: masse = 1E16
@@ -36,5 +26,4 @@ contains
         real :: ep
         ep = - (3 * G * masse ** 2) / (5 * r)
     end function energie_pot
->>>>>>> b40897af6c5e58a1d0b28c9b474b92ff975bc41b
 end module viriel
