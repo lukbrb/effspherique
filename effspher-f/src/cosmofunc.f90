@@ -6,6 +6,7 @@ module cosmofunc
     
     real, parameter :: Mp = 3.08567758 * 1E22  ! Valeur d un mégaparsec
     real, parameter :: H0 = 7 * 1e4 / Mp
+    real, parameter :: G = 6.6742 * 1E-11
     real, parameter :: Gyr = 3600. * 24. * 365. * 1E09
     real, parameter :: ti = (300000. * 365. * 24. * 3600.) / Gyr
     real, parameter :: di = 0.0017104343414306644
