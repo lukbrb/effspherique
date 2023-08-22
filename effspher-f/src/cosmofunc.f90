@@ -26,7 +26,7 @@ contains
 
     real function eq_diff(d, p, t) result(val_eq)
     real, intent(in) :: d, p, t
-    val_eq = -2 * H(t) * p + 1.5 * (H(t) ** 2) * d * (1 + d) + (4 / 3) * ((p ** 2) / (1 + d))
+    val_eq = -2 * H(t) * p + 1.5 * (H(t) ** 2) * d * (1. + d) + (4. / 3.) * ((p ** 2) / (1. + d))
     end function eq_diff
 
 end module cosmofunc
