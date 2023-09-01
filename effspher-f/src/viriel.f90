@@ -1,11 +1,12 @@
 module viriel
-    use cosmofunc, only: Hvec, G, di, ti, rho_m, masse, PI
+    use cosmofunc, only: Hvec, G, di, ti, rho_m, masse, PI, exp_param
+
     use solvers, only: rk4
     implicit none
 
     private
     character(256), parameter :: filename = 'results/rk4-results.dat'
-    public :: surd_vir
+    public :: surd_vir, surd_finale
 contains
 
     subroutine read_t_and_delta(t, ddelta, delta)
@@ -80,7 +81,7 @@ contains
         allocate(vdiff(size(t)))
         vvir = -sqrt(G * masse / r)
         vdiff = vitesse(t, r, ddelta, delta) - vvir
-        index_vir = minloc(vdiff)
+        index_vir = minloc(abs(vdiff))
         deallocate(vvir)
         deallocate(vdiff)
         tvir = t(index_vir(1))
@@ -88,17 +89,31 @@ contains
         t_and_r = [tvir, rvir]        
     end subroutine find_rvir
 
-    real function surd_vir() result(dvir)
+    function surd_vir() result(sol)
         real, dimension(:), allocatable:: t, r, ddelta, delta
         real :: tvir
         real, dimension(2) :: t_and_r, sol
         call read_t_and_delta(t, ddelta, delta)
         ! write(*, '(5F10.4)') delta
         allocate(r(size(t)))
-        r = ((3 * masse) / (4 * pi * rho_m(t) * (1 + delta))) ** (1. / 3.)
+        r = ((3 * masse) / (4 * PI * rho_m(t) * (1 + delta))) ** (1. / 3.)
         call find_rvir(t_and_r, t, r, ddelta, delta)
         tvir = t_and_r(1)
-        sol = rk4(4. * di, ti, tvir, 1E-5, 1E4)
-        dvir = sol(2)
+        print *, 'tvir=', tvir
+        sol = rk4(4. * di, ti, t_max=tvir, dt=1E-5, max_density=1E4)
     end function surd_vir
+
+    function surd_finale() result(dfinal)
+        real, dimension(:), allocatable:: t, ddelta, delta
+        real, dimension(2) :: tvir_dvir
+        real, dimension(1) :: tfin, tvir, dfinal
+        call read_t_and_delta(t, ddelta, delta)
+        deallocate(ddelta)
+        deallocate(delta)
+        tfin(1) = t(size(t))
+        tvir_dvir = surd_vir()
+        tvir(1) = tvir_dvir(1)
+        dfinal = 1 + tvir_dvir(2) * (exp_param(tfin) / exp_param(tvir)) ** 3
+    end function surd_finale
+
 end module viriel

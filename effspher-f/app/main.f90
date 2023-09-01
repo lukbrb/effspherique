@@ -2,7 +2,7 @@ program main
   use solvers, only: rk2, rk4, euler, rk4_write
   use cosmofunc, only: di, ti, t_max, age_univers
   use paramtune, only: cond_init, iterate_on_param
-  use viriel, only: surd_vir
+  use viriel, only: surd_vir, surd_finale
   
   implicit none
 
@@ -10,6 +10,7 @@ program main
   real :: max_density = 1e4
   real :: surdensite_mini
   real, dimension(2) :: resulte, result2, result4, surdensite_vir
+  real, dimension(1) :: surd_fin
 
   resulte = euler(4. * di, ti, t_max, dt, max_density)
   result2 = rk2(4. * di, ti, t_max, dt, max_density)
@@ -27,4 +28,6 @@ program main
   print *, 'Surdensité minimum pour t_eff=âge univers:', surdensite_mini
   surdensite_vir = surd_vir()
   print *, surdensite_vir
+  surd_fin = surd_finale()
+  write(*, *), 'surd_fin', surd_fin
 end program main
