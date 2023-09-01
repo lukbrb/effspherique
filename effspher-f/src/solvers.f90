@@ -3,8 +3,8 @@ module solvers
     implicit none
     private
 
-    public :: euler, rk2, rk4
-
+    public :: euler, rk2, rk4, rk4_write
+! TODO: Transformer les solveurs en subroutines
 contains
     function euler(di, ti, t_max, dt, max_density) result(t_and_delta)
     ! Fonction qui calcule l'algorithme d'Euler explicit.
@@ -97,5 +97,42 @@ contains
             ! print *, 't=', t, 'delta=', delta
         end do
         t_and_delta = [t, delta]
-    end function rk4  
+    end function rk4
+
+    function rk4_write(di, ti, t_max, dt, max_density) result(t_and_delta)
+        ! Fonction qui calcule l'algorithme de Runge-Kutta 2.
+        ! -------------
+        ! Arguments:
+        !     - init_conds: tuple (delta_0, t_0) des conditions initiales
+        !     - function : fonction directrice du système. Supposée ici f(x,t)
+        !     - t_max : Borne supérieure du domaine temporel (d'intégration)
+        !     - dt : le pas d'intégration
+        !     - max_density : valeur maximale autorisée pour la densité
+        ! :return t, delta
+        implicit none
+        real, intent(in) :: di, ti, t_max, dt, max_density
+        real :: delta, ddelta, t
+        real :: k1, k2, k3, k4
+        real, dimension(2) :: t_and_delta
+        integer :: io
+        open(newunit=io, file="results/rk4-results.dat", status="replace", action="write")
+
+        delta = di
+        ddelta = H(ti) * di
+        t = ti
+        do while(t <= t_max .and. delta <= max_density)
+            k1 = eq_diff(delta, ddelta, t)
+            k2 = eq_diff(delta, ddelta + (dt * k1) / 2, t + dt / 2)
+            k3 = eq_diff(delta, ddelta + (dt * k2) / 2, t + dt / 2)
+            k4 = eq_diff(delta, ddelta + (dt * k3) / 2, t + dt)
+            ddelta = ddelta + (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
+            delta = delta + ddelta * dt
+
+            t = t + dt
+            ! print *, 't=', t, 'delta=', delta
+            write(io, *) t, ddelta, delta
+        end do
+        close(io)
+        t_and_delta = [t, delta]
+    end function rk4_write 
 end module solvers
