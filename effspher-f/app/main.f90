@@ -36,12 +36,14 @@ program main
   
   surdensite_mini = cond_init(1e-4, 1e-2, 1e-7, 1e4, age_univers)
   write(*, '(A, F12.6)') 'Surdensité minimum pour t_eff=âge univers:', surdensite_mini
+  
   surdensite_vir = surd_vir()
   write(*, '(A, F12.6)') 'Surdensité viriel calculée:', surdensite_vir
 
   sta = surd_ta()
   write(*, '(A, F12.6)') 'Surdensité volte-face calculée:', sta
   write(*, '(A, F12.6)') 'Surdensité volte-face théorique:', (9./16.) * PI**2 - 1.
+
   surd_fin = surd_finale()
   write(*, '(A, F12.6)') 'Surdensité finale calculée:', surd_fin
   write(*, '(A, F12.6)') 'Surdensité finale théorique:', 18. * PI**2
