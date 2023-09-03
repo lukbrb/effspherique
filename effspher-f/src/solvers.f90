@@ -16,7 +16,6 @@ contains
     !       - dt : le pas d'intégration
     !       - max_density : valeur maximale autorisée pour la densité
     !   :return t, delta
-        implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, p, t, step
         real, dimension(2) :: t_and_delta
@@ -44,8 +43,6 @@ contains
         !     - dt : le pas d'intégration
         !     - max_density : valeur maximale autorisée pour la densité
         ! :return t, delta
-
-        implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, p, t
         real :: k1, k2
@@ -99,8 +96,8 @@ contains
         t_and_delta = [t, delta]
     end function rk4
 
-    function rk4_write(di, ti, t_max, dt, max_density) result(t_and_delta)
-        ! Fonction qui calcule l'algorithme de Runge-Kutta 2.
+    subroutine rk4_write(di, ti, t_max, dt, max_density)
+        ! Fonction qui calcule l'algorithme de Runge-Kutta 4.
         ! -------------
         ! Arguments:
         !     - init_conds: tuple (delta_0, t_0) des conditions initiales
@@ -109,11 +106,10 @@ contains
         !     - dt : le pas d'intégration
         !     - max_density : valeur maximale autorisée pour la densité
         ! :return t, delta
-        implicit none
         real, intent(in) :: di, ti, t_max, dt, max_density
         real :: delta, ddelta, t
         real :: k1, k2, k3, k4
-        real, dimension(2) :: t_and_delta
+
         integer :: io
         open(newunit=io, file="results/rk4-results.dat", status="replace", action="write")
 
@@ -125,14 +121,13 @@ contains
             k2 = eq_diff(delta, ddelta + (dt * k1) / 2, t + dt / 2)
             k3 = eq_diff(delta, ddelta + (dt * k2) / 2, t + dt / 2)
             k4 = eq_diff(delta, ddelta + (dt * k3) / 2, t + dt)
+
             ddelta = ddelta + (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
             delta = delta + ddelta * dt
-
             t = t + dt
-            ! print *, 't=', t, 'delta=', delta
+
             write(io, *) t, ddelta, delta
         end do
         close(io)
-        t_and_delta = [t, delta]
-    end function rk4_write 
+    end subroutine rk4_write 
 end module solvers
