@@ -19,9 +19,9 @@ program main
   real :: dt = 1e-5
   real :: max_density = 1e4
   real :: surdensite_mini
-  real, dimension(2) :: resulte, result2, result4
-  real, dimension(1) :: surd_fin, surdensite_vir
-  real :: sta
+  real, dimension(2) :: surdensite_vir, sta
+  real, dimension(1) :: surd_fin
+
   ! resulte = euler(4. * di, ti, t_max, dt, max_density)
   ! result2 = rk2(4. * di, ti, t_max, dt, max_density)
   ! result4 = rk4_write(4. * di, ti, t_max, dt, max_density)
@@ -34,14 +34,14 @@ program main
   ! ----------------------------
 
   
-  surdensite_mini = cond_init(1e-4, 1e-2, 1e-7, 1e4, age_univers)
-  write(*, '(A, F12.6)') 'Surdensité minimum pour t_eff=âge univers:', surdensite_mini
-  
+  ! surdensite_mini = cond_init(1e-4, 1e-2, 1e-7, 1e4, age_univers)
+  ! write(*, '(A, F12.6)') 'Surdensité minimum pour t_eff=âge univers:', surdensite_mini
+
   surdensite_vir = surd_vir()
-  write(*, '(A, F12.6)') 'Surdensité viriel calculée:', surdensite_vir
+  write(*, '(A, F12.6)') 'Surdensité viriel calculée:', surdensite_vir(2)
 
   sta = surd_ta()
-  write(*, '(A, F12.6)') 'Surdensité volte-face calculée:', sta
+  write(*, '(A, F12.6)') 'Surdensité volte-face calculée:', sta(2)
   write(*, '(A, F12.6)') 'Surdensité volte-face théorique:', (9./16.) * PI**2 - 1.
 
   surd_fin = surd_finale()
