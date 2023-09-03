@@ -17,14 +17,14 @@ program main
   ! ----------
   
   real :: dt = 1e-5
-  real :: max_density = 1e4
+  real :: max_density = 4. * 1e7
   real :: surdensite_mini
   real, dimension(2) :: surdensite_vir, sta
   real, dimension(1) :: surd_fin
 
   ! resulte = euler(4. * di, ti, t_max, dt, max_density)
   ! result2 = rk2(4. * di, ti, t_max, dt, max_density)
-  ! result4 = rk4_write(4. * di, ti, t_max, dt, max_density)
+  call rk4_write(4. * di, ti, t_max, dt, max_density)
   ! print *, 'Résultat Euler explicit :', resulte
   ! print *, 'Résultat RK2 :', result2
   ! print *, 'Résultat RK4 :', result4
