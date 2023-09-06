@@ -1,24 +1,16 @@
-# Projet_Physique
-Regroupe différents projets numériques de physique 
+# Projets de Physique
 
-## Projet 1 ##
+## 1 - Effondrement à symétrie sphérique en cosmologie
 
-#### Le projet 1 est un travail sur l'effondrement à symétrie sphérique en cosmologie. ####
+Dans ce projet nous allons déterminer le temps d’effondrement d’une surdensité sphérique
+dans un univers en expansion. Dans le cadre du modèle standard de la cosmologie, ce sont les
+surdensités primordiales qui, en s’effondrant, conduisent à la formation des halos de matière noire
+au sein desquelles le gaz tombe pour former des galaxies. En connaissant ce temps d’effondrement
+on peut donc en principe déterminer le rythme de formation des galaxies et amas de galaxies
+ainsi que leur abondance dans notre univers.
+Nous nous intéressons à la résolution numérique du problème, à savoir les multiples types de méthodes d’intégration et leur pertinence. Nous étudions également l’influence des différents paramètres physique ou numérique sur la solution finale. Finalement, nous faisons un retour sur certaines notions de
+physique (la surdensité viriel) qui permettent de rendre notre étude plus réaliste.
 
-Y sont traités :
+Les solutions ont initiallement été implémentées en Python, puis adaptées en Fortran pour gagner en efficacité, ainsi que pour comparer les temps d'éxécution. Le code en Python se trouve dans le dossier `effspher-py` tandis que le code en Fortran se trouve dans le dossier `effspher-f`.
 
-- Le temps d'effondrement, calculé à l'aide de Runge-Kutta 2 et Runge-Kutta 4
-  - Fichier : Sol_nonlin.py
-- Une vérification sur leur efficacité dans un régime linéaire (surdensité très inférieure à 1), et une comparaison de la solution calculée avec scipy.integrate.odeint
-  - Fichier : Sol_lin.py
-- L'influence des différents paramètres initiaux sur le temps d'effondrement 
-  - Fichiers : Sol_nonlin.py, Itération.py et les fichiers de résultats dans le dossier Résultats
-- Le calcul du rayon de virialisation et de la surdensité viriel 
-  - Fichier : Viriel.py
-- Une animation permettant de mieux visualiser le projet
-  - Fichiers : animation.mp4 et Graph_3D.py
-
-
-#### A noter : Ceci était un premier projet et une découverte de Python, il est probable qu'il contienne certaines imperfections ####
-
-### Mise à jour : un [notebook Jupyter](https://github.com/lukbrb/Projet_Physique/blob/master/Projet1-bis/ProjetNumerique.ipynb) a été crée, améliorant et éclaircissant les scripts déjà présents, et ajoutant des explications sur la démarche physique du projet
+**Prérequis et installation :** Pour le code en Python, seules les bibliothèques numpy et matplotlib sont utilsées, fournies directement avec une installation Anaconda/Miniconda. Pour le Fortan, l'utilisation du gestionnaire de paquet et de compilation [fpm](https://fpm.fortran-lang.org/fr/index.html) est recommandée.
