@@ -13,4 +13,4 @@ physique (la surdensité viriel) qui permettent de rendre notre étude plus réa
 
 Les solutions ont initiallement été implémentées en Python, puis adaptées en Fortran pour gagner en efficacité, ainsi que pour comparer les temps d'éxécution. Le code en Python se trouve dans le dossier `effspher-py` tandis que le code en Fortran se trouve dans le dossier `effspher-f`.
 
-**Prérequis et installation :** Pour le code en Python, seules les bibliothèques numpy et matplotlib sont utilsées, fournies directement avec une installation Anaconda/Miniconda. Pour le Fortan, l'utilisation du gestionnaire de paquet et de compilation [fpm](https://fpm.fortran-lang.org/fr/index.html) est recommandée.
+**Prérequis et installation :** Pour le code en Python, seules les bibliothèques numpy et matplotlib sont utilisées, fournies directement avec une installation Anaconda/Miniconda. Pour le Fortan, l'utilisation du gestionnaire de paquet et de compilation [fpm](https://fpm.fortran-lang.org/fr/index.html) est recommandée.
