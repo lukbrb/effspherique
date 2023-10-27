@@ -1,4 +1,5 @@
 program main
+  use, intrinsic :: iso_fortran_env, only : dp => real64
   use solvers, only: rk2, rk4, euler, rk4_write
   use cosmofunc, only: di, ti, t_max, age_univers, PI
   use paramtune, only: cond_init, iterate_on_param
@@ -16,15 +17,15 @@ program main
   ! Différence relative:  0.000317%
   ! ----------
   
-  real :: dt = 1e-5
-  real :: max_density = 4. * 1e7
-  real :: surdensite_mini
-  real, dimension(2) :: surdensite_vir, sta
-  real, dimension(1) :: surd_fin
+  real(dp) :: dt = 1e-5_dp
+  real(dp) :: max_density = 4._dp * 1e7_dp
+  real(dp) :: surdensite_mini
+  real(dp), dimension(2) :: surdensite_vir, sta
+  real(dp), dimension(1) :: surd_fin
 
   ! resulte = euler(4. * di, ti, t_max, dt, max_density)
   ! result2 = rk2(4. * di, ti, t_max, dt, max_density)
-  call rk4_write(4. * di, ti, t_max, dt, max_density)
+  call rk4_write(4._dp * di, ti, t_max, dt, max_density)
   ! print *, 'Résultat Euler explicit :', resulte
   ! print *, 'Résultat RK2 :', result2
   ! print *, 'Résultat RK4 :', result4
@@ -42,9 +43,9 @@ program main
 
   sta = surd_ta()
   write(*, '(A, F12.6)') 'Surdensité volte-face calculée:', sta(2)
-  write(*, '(A, F12.6)') 'Surdensité volte-face théorique:', (9./16.) * PI**2 - 1.
+  write(*, '(A, F12.6)') 'Surdensité volte-face théorique:', (9._dp/16._dp) * PI**2 - 1.
 
   surd_fin = surd_finale()
   write(*, '(A, F12.6)') 'Surdensité finale calculée:', surd_fin
-  write(*, '(A, F12.6)') 'Surdensité finale théorique:', 18. * PI**2
+  write(*, '(A, F12.6)') 'Surdensité finale théorique:', 18._dp * PI**2
 end program main

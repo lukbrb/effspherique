@@ -8,7 +8,7 @@ module io
 contains
 
     subroutine read_data(t, ddelta, delta)
-        real, dimension(:), allocatable, intent(out) :: t, ddelta, delta
+        real(kind = 8), dimension(:), allocatable, intent(out) :: t, ddelta, delta
         character(len=512) :: msg
         integer :: num_rows, i
         integer :: io, status

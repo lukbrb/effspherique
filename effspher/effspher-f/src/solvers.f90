@@ -16,9 +16,9 @@ contains
     !       - dt : le pas d'intégration
     !       - max_density : valeur maximale autorisée pour la densité
     !   :return t, delta
-        real, intent(in) :: di, ti, t_max, dt, max_density
-        real :: delta, p, t, step
-        real, dimension(2) :: t_and_delta
+        real(kind = 8), intent(in) :: di, ti, t_max, dt, max_density
+        real(kind = 8) :: delta, p, t, step
+        real(kind = 8), dimension(2) :: t_and_delta
 
         delta = di
         p = H(ti) * di
@@ -43,10 +43,10 @@ contains
         !     - dt : le pas d'intégration
         !     - max_density : valeur maximale autorisée pour la densité
         ! :return t, delta
-        real, intent(in) :: di, ti, t_max, dt, max_density
-        real :: delta, p, t
-        real :: k1, k2
-        real, dimension(2) :: t_and_delta
+        real(kind = 8), intent(in) :: di, ti, t_max, dt, max_density
+        real(kind = 8) :: delta, p, t
+        real(kind = 8):: k1, k2
+        real(kind = 8), dimension(2) :: t_and_delta
 
         delta = di
         p = H(ti) * di
@@ -74,10 +74,10 @@ contains
         !     - max_density : valeur maximale autorisée pour la densité
         ! :return t, delta
         implicit none
-        real, intent(in) :: di, ti, t_max, dt, max_density
-        real :: delta, p, t
-        real :: k1, k2, k3, k4
-        real, dimension(2) :: t_and_delta
+        real(kind = 8), intent(in) :: di, ti, t_max, dt, max_density
+        real(kind = 8) :: delta, p, t
+        real(kind = 8) :: k1, k2, k3, k4
+        real(kind = 8), dimension(2) :: t_and_delta
 
         delta = di
         p = H(ti) * di
@@ -106,9 +106,9 @@ contains
         !     - dt : le pas d'intégration
         !     - max_density : valeur maximale autorisée pour la densité
         ! :return t, delta
-        real, intent(in) :: di, ti, t_max, dt, max_density
-        real :: delta, ddelta, t
-        real :: k1, k2, k3, k4
+        real(kind = 8), intent(in) :: di, ti, t_max, dt, max_density
+        real(kind = 8) :: delta, ddelta, t
+        real(kind = 8) :: k1, k2, k3, k4
 
         integer :: io
         open(newunit=io, file="results/rk4-results.dat", status="replace", action="write")
