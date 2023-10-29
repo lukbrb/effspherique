@@ -1,3 +1,3 @@
 # effspher-f
 
-Implémentation de l'éffondrement à symétrie sphérique en Fortran. 
+Implémentation de l'éffondrement à symétrie sphérique en Fortran.
