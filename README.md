@@ -1,6 +1,4 @@
-# Projets de Physique
-
-## 1 - Effondrement à symétrie sphérique en cosmologie
+# Effondrement à symétrie sphérique en cosmologie
 
 Dans ce projet nous allons déterminer le temps d’effondrement d’une surdensité sphérique
 dans un univers en expansion. Dans le cadre du modèle standard de la cosmologie, ce sont les
